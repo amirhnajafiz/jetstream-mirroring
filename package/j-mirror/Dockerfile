@@ -1,24 +1,15 @@
-FROM golang:1.17-buster AS build
+FROM golang:1.17 AS build
 
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
-
-RUN go mod download
-
-COPY *.go ./
+COPY . .
 
 RUN go build -o /main
 
-FROM alpine
+FROM alpine:latest
 
-WORKDIR /
+WORKDIR /app
 
-COPY --from=build /main /main
+COPY --from=build /main .
 
-EXPOSE 8080
-
-USER nonroot:nonroot
-
-ENTRYPOINT ["/main"]
+ENTRYPOINT ["./main"]
