@@ -39,11 +39,18 @@ func Execute() {
 		}
 	}
 	{
-		// Connect to NATS server 1
+		// Connect to NATS server 2
 		nc, _ := nats.Connect(nats2)
-		_, err := nc.JetStream()
+		js, err := nc.JetStream()
 		if err != nil {
 			log.Fatal(err)
+		}
+
+		for {
+			_, err = js.Publish(subjectName, []byte(message))
+			if err == nil {
+				break
+			}
 		}
 	}
 }
