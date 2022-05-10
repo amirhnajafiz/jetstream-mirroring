@@ -5,9 +5,9 @@ services:
     container_name: j-mirror-main
     build:
       dockerfile: ./build/package/Dockerfile
-    command: "ls -la"
     ports:
       - "8080:8080"
+    networks: ["nats"]
   nats-1:
     image: synadia/jsm:nightly
     ports:
