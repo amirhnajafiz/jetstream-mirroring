@@ -6,10 +6,10 @@ COPY . .
 
 RUN go build -o /main
 
-FROM alpine:latest
+FROM scratch
 
 WORKDIR /app
 
-COPY --from=build /main /main
+COPY --from=build /main .
 
-ENTRYPOINT ["/main"]
+ENTRYPOINT ["./main"]
