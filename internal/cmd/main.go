@@ -7,16 +7,20 @@ import (
 )
 
 const (
+	// nats servers addresses
 	nats1 = "nats://0.0.0.0:4222"
 	nats2 = "nats://0.0.0.0:4223"
 
+	// stream configs
 	streamName     = "snapp"
 	streamSubjects = "snapp.*"
 	subjectName    = "snapp.created"
 
+	// message to publish
 	message = "snapp.cab"
 )
 
+// Execute connect to both nats servers and publish on them
 func Execute() {
 	{
 		// Connect to NATS server 1
@@ -26,6 +30,7 @@ func Execute() {
 			log.Fatal(err)
 		}
 
+		// create a jet-stream instance
 		err = createStream(js)
 		if err != nil {
 			panic(err)
@@ -46,6 +51,12 @@ func Execute() {
 			log.Fatal(err)
 		}
 
+		// create a jet-stream instance
+		err = createStream(js)
+		if err != nil {
+			panic(err)
+		}
+
 		for {
 			_, err = js.Publish(subjectName, []byte(message))
 			if err == nil {
@@ -56,7 +67,6 @@ func Execute() {
 }
 
 func createStream(js nats.JetStreamContext) error {
-	// Check if the ORDERS stream already exists; if not, create it.
 	stream, err := js.StreamInfo(streamName)
 	if err != nil {
 		log.Println(err)
