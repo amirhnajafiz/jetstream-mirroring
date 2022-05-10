@@ -24,7 +24,11 @@ const (
 func Execute() {
 	{
 		// Connect to NATS server 1
-		nc, _ := nats.Connect(nats1)
+		nc, err := nats.Connect(nats1)
+		if err != nil {
+			panic(err)
+		}
+
 		js, err := nc.JetStream()
 		if err != nil {
 			log.Fatal(err)
@@ -47,7 +51,11 @@ func Execute() {
 	}
 	{
 		// Connect to NATS server 2
-		nc, _ := nats.Connect(nats2)
+		nc, err := nats.Connect(nats2)
+		if err != nil {
+			panic(err)
+		}
+
 		js, err := nc.JetStream()
 		if err != nil {
 			log.Fatal(err)
