@@ -1,17 +1,28 @@
 version: "3.9"
 services:
+  node-app:
+    container_name: j-mirror-main
+    build:
+      dockerfile: /package/j-mirror/Dockerfile
+      target: .
+    ports:
+      - "8080:8080"
   nats-1:
     image: nats
     ports:
       - "8222:8222"
     command: "--cluster_name NATS1 --cluster nats://0.0.0.0:6222 --http_port 8222 "
     networks: ["nats"]
+    depends_on:
+      - node-app
   nats-2:
     image: nats
     ports:
       - "8223:8223"
     command: "--cluster_name NATS2 --cluster nats://0.0.0.0:6223 --http_port 8223 "
     networks: ["nats"]
+    depends_on:
+      - node-app
 
 networks:
   nats:
