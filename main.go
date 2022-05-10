@@ -1,8 +1,14 @@
 package main
 
-import "github.com/amirhnajafiz/j-mirror/internal/cmd"
+import (
+	"log"
+
+	"github.com/amirhnajafiz/j-mirror/internal/cmd"
+)
 
 // J-Mirror main
 func main() {
+	log.Println("Got here")
+
 	cmd.Execute()
 }

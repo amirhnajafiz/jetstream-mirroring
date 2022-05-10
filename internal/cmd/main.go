@@ -39,6 +39,8 @@ func Execute() {
 		for {
 			_, err = js.Publish(subjectName, []byte(message))
 			if err == nil {
+				log.Println("Done Nats1")
+
 				break
 			}
 		}
@@ -60,6 +62,8 @@ func Execute() {
 		for {
 			_, err = js.Publish(subjectName, []byte(message))
 			if err == nil {
+				log.Println("Done Nats1")
+
 				break
 			}
 		}

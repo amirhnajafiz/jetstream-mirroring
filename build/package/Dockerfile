@@ -10,6 +10,6 @@ FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=build /main .
+COPY --from=build /main /main
 
-ENTRYPOINT ["./main"]
+ENTRYPOINT ["/main"]
