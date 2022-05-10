@@ -7,26 +7,22 @@ services:
       dockerfile: ./build/package/Dockerfile
     ports:
       - "8080:8080"
-    networks: ["nats"]
+    depends_on:
+      - nats-1
+      - nats-2
   nats-1:
+    container_name: n1
     image: synadia/jsm:nightly
+    entrypoint: /nats-server
     ports:
       - "8222:8222"
       - "4222:4222"
-    command: "--cluster_name NATS1 --cluster nats://0.0.0.0:6222 --http_port 8222 --mirror nats://0.0.0.0:4222"
-    networks: ["nats"]
-    depends_on:
-      - node-app
+    command: "--name n1 --cluster_name NATS1 --cluster nats://0.0.0.0:6222 --js --sd /data --routes nats://n1:6222 --http_port 8222"
   nats-2:
+    container_name: n2
     image: synadia/jsm:nightly
+    entrypoint: /nats-server
     ports:
       - "8223:8222"
       - "4223:4222"
-    command: "--cluster_name NATS2 --cluster nats://0.0.0.0:6222 --http_port 8222"
-    networks: ["nats"]
-    depends_on:
-      - node-app
-
-networks:
-  nats:
-    name: nats
+    command: "--name n2 --cluster_name NATS2 --cluster nats://0.0.0.0:6222 --js --sd /data --routes nats://n2:6222 --http_port 8222"
