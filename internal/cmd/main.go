@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	nats1 = "nats://0.0.0.0:6222"
-	nats2 = "nats://0.0.0.0:6223"
+	nats1 = "nats://0.0.0.0:4222"
+	nats2 = "nats://0.0.0.0:4223"
 
 	streamName     = "snapp"
 	streamSubjects = "snapp.*"
