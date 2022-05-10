@@ -3,8 +3,7 @@ services:
   node-app:
     container_name: j-mirror-main
     build:
-      dockerfile: /package/j-mirror/Dockerfile
-      target: .
+      dockerfile: ./package/j-mirror/Dockerfile
     ports:
       - "8080:8080"
   nats-1:
