@@ -13,7 +13,9 @@ const (
 )
 
 // Execute connect to both nats servers and publish on them
-func Execute(cfg config.Config) {
+func Execute() {
+	cfg := config.Load()
+
 	{
 		// Connect to NATS server 1
 		nc, err := nats.Connect(cfg.Nat1)
