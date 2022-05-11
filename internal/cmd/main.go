@@ -3,28 +3,20 @@ package cmd
 import (
 	"log"
 
+	"github.com/amirhnajafiz/j-mirror/internal/config"
 	"github.com/nats-io/nats.go"
 )
 
 const (
-	// nats servers addresses
-	nats1 = "nats://0.0.0.0:4222"
-	nats2 = "nats://0.0.0.0:4223"
-
-	// stream configs
-	streamName     = "snapp"
-	streamSubjects = "snapp.*"
-	subjectName    = "snapp.created"
-
 	// message to publish
 	message = "snapp.cab"
 )
 
 // Execute connect to both nats servers and publish on them
-func Execute() {
+func Execute(cfg config.Config) {
 	{
 		// Connect to NATS server 1
-		nc, err := nats.Connect(nats1)
+		nc, err := nats.Connect(cfg.Nat1)
 		if err != nil {
 			panic(err)
 		}
@@ -35,13 +27,13 @@ func Execute() {
 		}
 
 		// create a jet-stream instance
-		err = createStream(js)
+		err = createStream(js, cfg)
 		if err != nil {
 			panic(err)
 		}
 
 		for {
-			_, err = js.Publish(subjectName, []byte(message))
+			_, err = js.Publish(cfg.SubjectName, []byte(message))
 			if err == nil {
 				log.Println("Done Nats1")
 
@@ -51,7 +43,7 @@ func Execute() {
 	}
 	{
 		// Connect to NATS server 2
-		nc, err := nats.Connect(nats2)
+		nc, err := nats.Connect(cfg.Nat2)
 		if err != nil {
 			panic(err)
 		}
@@ -62,13 +54,13 @@ func Execute() {
 		}
 
 		// create a jet-stream instance
-		err = createStream(js)
+		err = createStream(js, cfg)
 		if err != nil {
 			panic(err)
 		}
 
 		for {
-			_, err = js.Publish(subjectName, []byte(message))
+			_, err = js.Publish(cfg.SubjectName, []byte(message))
 			if err == nil {
 				log.Println("Done Nats1")
 
@@ -78,18 +70,18 @@ func Execute() {
 	}
 }
 
-func createStream(js nats.JetStreamContext) error {
-	stream, err := js.StreamInfo(streamName)
+func createStream(js nats.JetStreamContext, cfg config.Config) error {
+	stream, err := js.StreamInfo(cfg.StreamName)
 	if err != nil {
 		log.Println(err)
 	}
 
 	if stream == nil {
-		log.Printf("creating stream %q and subjects %q", streamName, streamSubjects)
+		log.Printf("creating stream %q and subjects %q", cfg.StreamName, cfg.Subject)
 
 		_, err = js.AddStream(&nats.StreamConfig{
-			Name:     streamName,
-			Subjects: []string{streamSubjects},
+			Name:     cfg.StreamName,
+			Subjects: []string{cfg.Subject},
 		})
 
 		if err != nil {
