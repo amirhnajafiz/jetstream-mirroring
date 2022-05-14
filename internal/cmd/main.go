@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"log"
+	"time"
 
 	"github.com/amirhnajafiz/j-mirror/internal/config"
 	"github.com/nats-io/nats.go"
@@ -55,12 +56,13 @@ func Execute() {
 		}
 	}
 
-	for {
+	ticker := time.NewTimer(10 * time.Second)
+	for i := range ticker.C {
 		_, err := main.Publish(cfg.SubjectName, []byte(message))
-		if err == nil {
-			log.Println("Done Nats1")
-
-			break
+		if err != nil {
+			log.Printf("[Test %d] Error: %s\n", i.Second(), err.Error())
+		} else {
+			log.Printf("[Test %d] Done\n", i.Second())
 		}
 	}
 }
