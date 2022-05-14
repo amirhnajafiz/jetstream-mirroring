@@ -1,0 +1,54 @@
+http:
+  enabled: true
+  address: 0.0.0.0:4195
+  root_path: /benthos
+  debug_endpoints: false
+  cert_file: ""
+  key_file: ""
+  cors:
+    enabled: false
+    allowed_origins: []
+input:
+  label: "input_nats"
+  nats_jetstream:
+    urls: [ "nats://0.0.0.0:4224" ]
+    queue: ""
+    subject: "*"
+    durable: ""
+    stream: "ORDER"
+    bind: false
+    deliver: all
+buffer:
+  none: {}
+pipeline:
+  threads: -1
+  processors: []
+output:
+  label: "output_nats"
+  nats_jetstream:
+    urls: [ "nats://0.0.0.0:4223" ]
+    subject: "ORDER*"
+logger:
+  level: INFO
+  format: logfmt
+  add_timestamp: false
+  static_fields:
+    '@service': benthos
+metrics:
+  prometheus:
+    use_histogram_timing: false
+    histogram_buckets: []
+    add_process_metrics: false
+    add_go_metrics: false
+    push_url: ""
+    push_interval: ""
+    push_job_name: benthos_push
+    push_basic_auth:
+      username: ""
+      password: ""
+    file_output_path: ""
+  mapping: ""
+tracer:
+  none: {}
+shutdown_timeout: 20s
+
