@@ -3,6 +3,8 @@
 Mirroring our Nats Jet-stream streams from different 
 clusters to each other using Benthos.
 
+<img src="./assets/benthos.png" width="700" />
+
 ## What is this repository for?
 In this repository I mirrored one stream inside a
 Jet-stream service to another stream inside a different
