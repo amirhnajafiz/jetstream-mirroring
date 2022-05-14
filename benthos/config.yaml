@@ -9,13 +9,13 @@ http:
     enabled: false
     allowed_origins: []
 input:
-  label: "input_nats"
+  label: "nats1"
   nats_jetstream:
-    urls: [ "nats://0.0.0.0:4224" ]
+    urls: [ "nats://0.0.0.0:4222" ]
     queue: ""
-    subject: "*"
+    subject: "snapp*"
     durable: ""
-    stream: "ORDER"
+    stream: "snapp"
     bind: false
     deliver: all
 buffer:
@@ -24,10 +24,10 @@ pipeline:
   threads: -1
   processors: []
 output:
-  label: "output_nats"
+  label: "nats2"
   nats_jetstream:
     urls: [ "nats://0.0.0.0:4223" ]
-    subject: "ORDER*"
+    subject: "snapp*"
 logger:
   level: INFO
   format: logfmt
@@ -36,10 +36,10 @@ logger:
     '@service': benthos
 metrics:
   prometheus:
-    use_histogram_timing: false
+    use_histogram_timing: true
     histogram_buckets: []
-    add_process_metrics: false
-    add_go_metrics: false
+    add_process_metrics: true
+    add_go_metrics: true
     push_url: ""
     push_interval: ""
     push_job_name: benthos_push
@@ -51,4 +51,3 @@ metrics:
 tracer:
   none: {}
 shutdown_timeout: 20s
-
