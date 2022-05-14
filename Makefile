@@ -9,6 +9,8 @@ down:
 build:
 	go build -o main.go
 # run
+run:
 	go run main.go
 # benthos
+benthos:
 	docker run --rm -v ./benthos/config.yaml jeffail/benthos
