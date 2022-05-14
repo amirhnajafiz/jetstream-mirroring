@@ -14,6 +14,8 @@ const (
 
 // Execute connect to both nats servers and publish on them
 func Execute() {
+	var main nats.JetStreamContext
+
 	cfg := config.Load()
 
 	{
@@ -23,24 +25,15 @@ func Execute() {
 			panic(err)
 		}
 
-		js, err := nc.JetStream()
+		main, err = nc.JetStream()
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		// create a jet-stream instance
-		err = createStream(js, cfg)
+		err = createStream(main, cfg)
 		if err != nil {
 			panic(err)
-		}
-
-		for {
-			_, err = js.Publish(cfg.SubjectName, []byte(message))
-			if err == nil {
-				log.Println("Done Nats1")
-
-				break
-			}
 		}
 	}
 	{
@@ -60,14 +53,14 @@ func Execute() {
 		if err != nil {
 			panic(err)
 		}
+	}
 
-		for {
-			_, err = js.Publish(cfg.SubjectName, []byte(message))
-			if err == nil {
-				log.Println("Done Nats1")
+	for {
+		_, err := main.Publish(cfg.SubjectName, []byte(message))
+		if err == nil {
+			log.Println("Done Nats1")
 
-				break
-			}
+			break
 		}
 	}
 }
