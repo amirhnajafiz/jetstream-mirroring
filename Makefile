@@ -13,7 +13,7 @@ run:
 	go run main.go
 # test
 test:
-	go test -v ./..
+	go test ./...
 # benthos
 benthos-run:
 	docker run --rm -v ./benthos/config.yaml jeffail/benthos
