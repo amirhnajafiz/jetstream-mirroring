@@ -2,21 +2,13 @@ package cmd
 
 import (
 	"log"
-	"time"
 
 	"github.com/amirhnajafiz/j-mirror/internal/config"
 	"github.com/nats-io/nats.go"
 )
 
-const (
-	// message to publish
-	message = "snapp.cab"
-)
-
 // Execute connect to both nats servers and publish on them
 func Execute() {
-	var main nats.JetStreamContext
-
 	cfg := config.Load()
 
 	{
@@ -26,13 +18,13 @@ func Execute() {
 			panic(err)
 		}
 
-		main, err = nc.JetStream()
+		js, err := nc.JetStream()
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		// create a jet-stream instance
-		err = createStream(main, cfg)
+		err = createStream(js, cfg)
 		if err != nil {
 			panic(err)
 		}
@@ -53,16 +45,6 @@ func Execute() {
 		err = createStream(js, cfg)
 		if err != nil {
 			panic(err)
-		}
-	}
-
-	ticker := time.NewTimer(1 * time.Second)
-	for i := range ticker.C {
-		_, err := main.Publish(cfg.SubjectName, []byte(message))
-		if err != nil {
-			log.Printf("[Test %d] Error: %s\n", i.Second(), err.Error())
-		} else {
-			log.Printf("[Test %d] Done\n", i.Second())
 		}
 	}
 }
