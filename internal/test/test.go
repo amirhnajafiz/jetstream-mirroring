@@ -1,11 +1,9 @@
 package main
 
 import (
-	"log"
-	"time"
-
 	"github.com/amirhnajafiz/j-mirror/internal/config"
 	"github.com/nats-io/nats.go"
+	"log"
 )
 
 const (
@@ -27,13 +25,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ticker := time.NewTimer(1 * time.Second)
-	for i := range ticker.C {
+	for i := 1; i < 11; i++ {
 		_, err = js.Publish(cfg.SubjectName, []byte(message))
 		if err != nil {
-			log.Printf("[Test %d] Error: %s\n", i.Second(), err.Error())
+			log.Printf("[Test %d] Error: %s\n", i, err.Error())
 		} else {
-			log.Printf("[Test %d] Done\n", i.Second())
+			log.Printf("[Test %d] Done\n", i)
 		}
 	}
 }
