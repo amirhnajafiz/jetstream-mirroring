@@ -56,6 +56,9 @@ func Execute() {
 		}
 	}
 
+	log.Println("Waiting for benthos ...")
+	time.Sleep(12 * time.Second)
+
 	ticker := time.NewTimer(10 * time.Second)
 	for i := range ticker.C {
 		_, err := main.Publish(cfg.SubjectName, []byte(message))

@@ -12,5 +12,5 @@ build:
 run:
 	go run main.go
 # benthos
-benthos:
+benthos-run:
 	docker run --rm -v ./benthos/config.yaml jeffail/benthos
