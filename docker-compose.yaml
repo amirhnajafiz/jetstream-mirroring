@@ -5,14 +5,12 @@ services:
     image: nats:latest
     entrypoint: /nats-server
     ports:
-      - "8222:8222"
       - "4222:4222"
-    command: "--name n1 --cluster_name NATS1 --cluster nats://0.0.0.0:6222 --js --sd /data --routes nats://n1:6222 --http_port 8222"
+    command: --name n1 --cluster_name NATS1 --js --sd /data -p 4222
   nats-2:
     container_name: n2
     image: nats:latest
     entrypoint: /nats-server
     ports:
-      - "8223:8222"
       - "4223:4222"
-    command: "--name n2 --cluster_name NATS2 --cluster nats://0.0.0.0:6222 --js --sd /data --routes nats://n2:6222 --http_port 8222"
+    command: --name n2 --cluster_name NATS2 --js --sd /data -p 4222
