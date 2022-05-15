@@ -1,7 +1,8 @@
-package main
+package test
 
 import (
 	"log"
+	"testing"
 	"time"
 
 	"github.com/amirhnajafiz/j-mirror/internal/config"
@@ -13,7 +14,7 @@ const (
 	message = "snapp.cab"
 )
 
-func main() {
+func TestBenthos(t *testing.T) {
 	cfg := config.Load()
 
 	// Connect to NATS server 1
@@ -29,9 +30,9 @@ func main() {
 
 	ticker := time.NewTimer(1 * time.Second)
 	for i := range ticker.C {
-		_, err := js.Publish(cfg.SubjectName, []byte(message))
+		_, err = js.Publish(cfg.SubjectName, []byte(message))
 		if err != nil {
-			log.Printf("[Test %d] Error: %s\n", i.Second(), err.Error())
+			t.Errorf("[Test %d] Error: %s\n", i.Second(), err.Error())
 		} else {
 			log.Printf("[Test %d] Done\n", i.Second())
 		}

@@ -28,6 +28,8 @@ func Execute() {
 		if err != nil {
 			panic(err)
 		}
+
+		log.Printf("[OK] NATS1 Config.")
 	}
 	{
 		// Connect to NATS server 2
@@ -46,6 +48,8 @@ func Execute() {
 		if err != nil {
 			panic(err)
 		}
+
+		log.Printf("[OK] NATS2 Config.")
 	}
 }
 
