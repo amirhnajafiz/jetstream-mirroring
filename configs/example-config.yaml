@@ -1,5 +1,8 @@
-nats1: "0.0.0.0:4222"
-nats2: "0.0.0.0:4223"
-stream_name: "snapp"
-subject: "snapp*"
-subject_name: "snapp"
+nats:
+  nats1_url: "0.0.0.0:4222"
+  nats2_url: "0.0.0.0:4223"
+stream:
+  stream_name: "snapp"
+  subject: "snapp*"
+  subject_name: "snapp"
+number_of_tests: 20

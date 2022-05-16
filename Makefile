@@ -12,8 +12,11 @@ build:
 run:
 	go run main.go
 # test
-test:
+tests:
 	go test -v ./...
-# benthos
+# normal benthos
 benthos-run:
+	benthos -c ./benthos/config.yaml
+# benthos docker
+benthos-run-docker:
 	docker run --rm -v ./benthos/config.yaml jeffail/benthos

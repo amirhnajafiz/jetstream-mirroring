@@ -3,9 +3,11 @@
 Mirroring our Nats Jet-stream streams from different 
 clusters to each other using Benthos.
 
-<img src="./assets/benthos.png" width="700" />
+<p align="center">
+    <img src="./assets/benthos.png" width="318" alt="benthos-pic" />
+</p>
 
-## What is this repository for?
+## What is this project for?
 In this repository I mirrored one stream inside a
 Jet-stream service to another stream inside a different
 Jet-stream cluster.
@@ -48,13 +50,17 @@ cp ./configs/example-config.yaml ./config.yaml
 
 You can set the project configs in this file:
 ```yaml
-nats1: "0.0.0.0:4222" # main service
-nats2: "0.0.0.0:4223" # second service
-stream_name: "snapp"  # stream names that are same in both
-subject: "snapp*"     # subjects are also the same
+nats:
+  nats1_url: "0.0.0.0:4222" # main service
+  nats2_url: "0.0.0.0:4223" # second service
+stream:
+  stream_name: "snapp" # stream names that are same in both
+  subject: "snapp*"    # subjects are also the same
+  subject_name: "snapp"
+number_of_tests: 20 # number of tests
 ```
 
-## Testing
+## Set up servers
 Use the following command to start our nats js clusters:
 ```shell
 make up
@@ -64,18 +70,30 @@ Now you have two Jet-stream clusters on:
 - 0.0.0.0:4222 (Main)
 - 0.0.0.0:4223 (Secondary)
 
-Bring up the benthos:
+Bring up the benthos on docker:
 ```shell
-make benthos
+make benthos-run-docker
+```
+
+If you have benthos installed on your system, you can use
+the following command instead, to run benthos on your local system:
+```shell
+make benthos-run
 ```
 
 Now you have the benthos service on:
 - 0.0.0.0:4195
 
-Now you can test the service with following command:
+Now set the streams configs for the service with following command:
 ```shell
 make build
 make run
+```
+
+## Testing
+Test the mirroring by the following command:
+```shell
+make tests
 ```
 
 If you check the nats containers logs, you can see the results
