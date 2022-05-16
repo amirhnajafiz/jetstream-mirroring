@@ -4,7 +4,7 @@ import (
 	"github.com/amirhnajafiz/j-mirror/internal/cmd"
 )
 
-// J-Mirror main
+// Jet-stream mirroring main
 func main() {
 	cmd.Execute()
 }

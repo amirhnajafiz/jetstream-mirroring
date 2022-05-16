@@ -27,7 +27,7 @@ output:
   label: "nats2"
   nats_jetstream:
     urls: [ "nats://0.0.0.0:4223" ]
-    subject: "snapp*"
+    subject: "*"
 logger:
   level: INFO
   format: logfmt

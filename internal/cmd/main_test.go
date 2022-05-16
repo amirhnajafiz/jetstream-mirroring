@@ -13,6 +13,7 @@ const (
 )
 
 func Test(t *testing.T) {
+	// loading configs
 	cfg := config.Load()
 
 	// Connect to NATS server
@@ -21,11 +22,13 @@ func Test(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// creating a jet-stream connection
 	js, err := nc.JetStream()
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	// message sending
 	for i := 1; i < 11; i++ {
 		_, err = js.Publish(cfg.SubjectName, []byte(message))
 		if err != nil {

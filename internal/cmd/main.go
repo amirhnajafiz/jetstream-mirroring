@@ -7,7 +7,7 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-// Execute connect to both nats servers and publish on them
+// Execute connect to both nats servers and creating the streams
 func Execute() {
 	cfg := config.Load()
 
@@ -18,6 +18,7 @@ func Execute() {
 			panic(err)
 		}
 
+		// creating a jet-stream connection
 		js, err := nc.JetStream()
 		if err != nil {
 			log.Fatal(err)
@@ -29,7 +30,7 @@ func Execute() {
 			panic(err)
 		}
 
-		log.Printf("[OK] NATS1 Config.")
+		log.Printf("[OK] first js server streams created")
 	}
 	{
 		// Connect to NATS server 2
@@ -38,6 +39,7 @@ func Execute() {
 			panic(err)
 		}
 
+		// creating a jet-stream connection
 		js, err := nc.JetStream()
 		if err != nil {
 			log.Fatal(err)
@@ -49,10 +51,11 @@ func Execute() {
 			panic(err)
 		}
 
-		log.Printf("[OK] NATS2 Config.")
+		log.Printf("[OK] second js server streams created")
 	}
 }
 
+// this method creates our stream in js server
 func createStream(js nats.JetStreamContext, cfg config.Config) error {
 	stream, err := js.StreamInfo(cfg.StreamName)
 	if err != nil {
@@ -60,7 +63,7 @@ func createStream(js nats.JetStreamContext, cfg config.Config) error {
 	}
 
 	if stream == nil {
-		log.Printf("creating stream %q and subjects %q", cfg.StreamName, cfg.Subject)
+		log.Printf("[OK] creating stream %q and subjects %q", cfg.StreamName, cfg.Subject)
 
 		_, err = js.AddStream(&nats.StreamConfig{
 			Name:     cfg.StreamName,
