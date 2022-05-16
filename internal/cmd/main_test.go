@@ -30,7 +30,7 @@ func Test(t *testing.T) {
 		}
 
 		// subscribing on subject
-		_, _ = js.Subscribe(cfg.Stream.Subject, func(msg *nats.Msg) {
+		_, _ = js.Subscribe(cfg.Stream.SubjectName, func(msg *nats.Msg) {
 			t.Logf("[NATS2][RECIEVE] %s", msg.Data)
 
 			// make acknowledgement
@@ -49,6 +49,14 @@ func Test(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+
+		// subscribing on subject
+		_, _ = js.Subscribe(cfg.Stream.SubjectName, func(msg *nats.Msg) {
+			t.Logf("[NATS1][RECIEVE] %s", msg.Data)
+
+			// make acknowledgement
+			_ = msg.Ack()
+		})
 
 		// message sending
 		for i := 1; i <= cfg.Tests; i++ {

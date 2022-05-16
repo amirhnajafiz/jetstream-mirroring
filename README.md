@@ -96,9 +96,6 @@ Test the mirroring by the following command:
 make tests
 ```
 
-If you check the nats containers logs, you can see the results
-of the test.
-
 You should be able to see same publications on both clusters.
 
 If you want to shut down the clusters:
