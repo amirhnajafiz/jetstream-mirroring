@@ -13,7 +13,7 @@ func Execute() {
 
 	{
 		// Connect to NATS server 1
-		nc, err := nats.Connect(cfg.Nat1)
+		nc, err := nats.Connect(cfg.Nats.Nat1)
 		if err != nil {
 			panic(err)
 		}
@@ -25,16 +25,16 @@ func Execute() {
 		}
 
 		// create a jet-stream instance
-		err = createStream(js, cfg)
+		err = createStream(js, cfg.Stream)
 		if err != nil {
 			panic(err)
 		}
 
-		log.Printf("[OK] first js server streams created")
+		log.Printf("[OK] first js server streams created\n")
 	}
 	{
 		// Connect to NATS server 2
-		nc, err := nats.Connect(cfg.Nat2)
+		nc, err := nats.Connect(cfg.Nats.Nat2)
 		if err != nil {
 			panic(err)
 		}
@@ -46,24 +46,24 @@ func Execute() {
 		}
 
 		// create a jet-stream instance
-		err = createStream(js, cfg)
+		err = createStream(js, cfg.Stream)
 		if err != nil {
 			panic(err)
 		}
 
-		log.Printf("[OK] second js server streams created")
+		log.Printf("[OK] second js server streams created\n")
 	}
 }
 
 // this method creates our stream in js server
-func createStream(js nats.JetStreamContext, cfg config.Config) error {
+func createStream(js nats.JetStreamContext, cfg config.Stream) error {
 	stream, err := js.StreamInfo(cfg.StreamName)
 	if err != nil {
 		log.Println(err)
 	}
 
 	if stream == nil {
-		log.Printf("[OK] creating stream %q and subjects %q", cfg.StreamName, cfg.Subject)
+		log.Printf("[OK] creating stream %q and subjects %q\n", cfg.StreamName, cfg.Subject)
 
 		_, err = js.AddStream(&nats.StreamConfig{
 			Name:     cfg.StreamName,

@@ -17,7 +17,7 @@ func Test(t *testing.T) {
 	cfg := config.Load()
 
 	// Connect to NATS server
-	nc, err := nats.Connect(cfg.Nat1)
+	nc, err := nats.Connect(cfg.Nats.Nat1)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -29,12 +29,12 @@ func Test(t *testing.T) {
 	}
 
 	// message sending
-	for i := 1; i < 11; i++ {
-		_, err = js.Publish(cfg.SubjectName, []byte(message))
+	for i := 1; i <= cfg.Tests; i++ {
+		_, err = js.Publish(cfg.Stream.SubjectName, []byte(message))
 		if err != nil {
-			t.Logf("[Test %d] Error: %s\n", i, err.Error())
+			t.Logf("[Test %d/%d] Error: %s\n", i, cfg.Tests, err.Error())
 		} else {
-			t.Logf("[Test %d] Done\n", i)
+			t.Logf("[Test %d/%d] OK\n", i, cfg.Tests)
 		}
 	}
 }
