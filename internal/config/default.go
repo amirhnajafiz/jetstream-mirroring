@@ -1,11 +1,17 @@
 package config
 
+// Default configs
 func Default() Config {
 	return Config{
-		Nat1:        "",
-		Nat2:        "",
-		StreamName:  "snapp",
-		Subject:     "snapp*",
-		SubjectName: "snapp.test",
+		Nats: Nats{
+			Nat1: "",
+			Nat2: "",
+		},
+		Stream: Stream{
+			StreamName:  "snapp",
+			Subject:     "snapp*",
+			SubjectName: "snapp@cab",
+		},
+		Tests: 10,
 	}
 }

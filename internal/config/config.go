@@ -10,14 +10,27 @@ import (
 	"github.com/knadh/koanf/providers/structs"
 )
 
+// Config main configs of the application
 type Config struct {
-	Nat1        string `koanf:"nat1"`
-	Nat2        string `koanf:"nat2"`
+	Nats   Nats   `koanf:"nats"`
+	Stream Stream `koanf:"stream"`
+	Tests  int    `koanf:"number_of_tests"`
+}
+
+// Nats configs for our nats servers
+type Nats struct {
+	Nat1 string `koanf:"nat1_url"`
+	Nat2 string `koanf:"nat2_url"`
+}
+
+// Stream configs for nats streams
+type Stream struct {
 	StreamName  string `koanf:"stream_name"`
 	Subject     string `koanf:"subject"`
 	SubjectName string `koanf:"subject_name"`
 }
 
+// Load loads all of our configs
 func Load() Config {
 	var instance Config
 
