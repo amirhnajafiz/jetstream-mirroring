@@ -1,14 +1,13 @@
-# Jet-stream Mirroring
-
-Mirroring our Nats Jet-stream streams from different 
-clusters to each other using Benthos.
-
 <p align="center">
     <img src="./assets/benthos.png" width="318" alt="benthos-pic" />
 </p>
 
-## What is this project for?
-In this repository I mirrored one stream inside a
+<h1 align="center">
+Jet-stream Mirroring
+</h1>
+
+Mirroring our Nats Jet-stream streams from different 
+clusters to each other using Benthos. In this repository I mirrored one stream inside a
 Jet-stream service to another stream inside a different
 Jet-stream cluster.
 
