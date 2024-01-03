@@ -44,15 +44,15 @@ func (h Handler) Bootstrap(hosts []string) []error {
 
 // this method creates our stream in NATS
 func (h Handler) createStream(js nats.JetStreamContext) error {
-	stream, err := js.StreamInfo("")
+	stream, err := js.StreamInfo(h.Stream.Name)
 	if err != nil {
 		return err
 	}
 
 	if stream == nil {
 		_, err = js.AddStream(&nats.StreamConfig{
-			Name:     "",
-			Subjects: []string{""},
+			Name:     h.Stream.Name,
+			Subjects: []string{h.Stream.SubjectName},
 		})
 		if err != nil {
 			return err
