@@ -1,8 +1,13 @@
 package handlers
 
-import "github.com/amirhnajafiz/j-mirror/internal/model"
+import (
+	"time"
+
+	"github.com/amirhnajafiz/j-mirror/internal/model"
+)
 
 // Handler manages testing components
 type Handler struct {
-	Stream model.Stream
+	Stream           model.Stream
+	ProviderInterval time.Duration
 }
