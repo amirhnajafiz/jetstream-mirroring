@@ -3,11 +3,17 @@ package handlers
 import (
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/nats-io/nats.go"
 )
 
 func (h Handler) Consumer(host string) error {
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
+
 	// connect to NATS server for subscribe
 	nc, err := nats.Connect(host)
 	if err != nil {
@@ -31,4 +37,9 @@ func (h Handler) Consumer(host string) error {
 
 		log.Println(fmt.Sprintf("consumed %d on %s", len(msg.Data), host))
 	})
+
+	// wait for cancel signal
+	<-signalCh
+
+	return nil
 }
