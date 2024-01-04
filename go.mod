@@ -1,6 +1,6 @@
 module github.com/amirhnajafiz/j-mirror
 
-go 1.17
+go 1.20
 
 require (
 	github.com/knadh/koanf v1.4.1
