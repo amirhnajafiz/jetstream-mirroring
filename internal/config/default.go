@@ -11,5 +11,6 @@ func Default() Config {
 			Subject:     "snapp*",
 			SubjectName: "snapp@cab",
 		},
+		Interval: 5,
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"log"
+	"time"
 
 	"github.com/amirhnajafiz/j-mirror/internal/config"
 	"github.com/amirhnajafiz/j-mirror/internal/handlers"
@@ -28,7 +29,10 @@ func main() {
 	cfg := config.Load(*ConfigPathFlag)
 
 	// create handler
-	h := handlers.Handler{}
+	h := handlers.Handler{
+		Stream:           cfg.Stream,
+		ProviderInterval: time.Duration(cfg.Interval) * time.Second,
+	}
 
 	// start bootstrap
 	switch *ServiceTypeFlag {

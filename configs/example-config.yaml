@@ -5,4 +5,3 @@ stream:
   stream_name: "snapp"
   subject: "snapp*"
   subject_name: "snapp"
-number_of_tests: 20

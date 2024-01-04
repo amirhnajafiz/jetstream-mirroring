@@ -16,6 +16,7 @@ import (
 type Config struct {
 	Clusters []string     `koanf:"clusters"`
 	Stream   model.Stream `koanf:"stream"`
+	Interval int          `koanf:"interval"`
 }
 
 // Load loads all of our configs
