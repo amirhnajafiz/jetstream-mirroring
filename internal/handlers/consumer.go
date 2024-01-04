@@ -35,7 +35,7 @@ func (h Handler) Consumer(host string) error {
 			return
 		}
 
-		log.Println(fmt.Sprintf("consumed %d on %s", len(msg.Data), host))
+		log.Println(fmt.Sprintf("consumed %d bytes from %s", len(msg.Data), host))
 	})
 
 	// wait for cancel signal

@@ -1,18 +1,17 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/nats-io/nats.go"
 )
 
 func (h Handler) Provider(host string) error {
-	intervalCh := make(chan int)
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
 
@@ -28,22 +27,23 @@ func (h Handler) Provider(host string) error {
 		return fmt.Errorf("failed to open jetstream connection: %w", err)
 	}
 
-	// publish message
+	mgs := []byte("input buffer for testing message")
+
 	for {
-		_, err = js.Publish(h.Stream.SubjectName, []byte("input buffer for testing message"))
+		// create a new context
+		ctx, cancel := context.WithTimeout(context.Background(), h.ProviderInterval)
+
+		// publish
+		_, err = js.Publish(h.Stream.SubjectName, mgs)
 		if err != nil {
 			log.Println(fmt.Errorf("failed to publish on %s: %w", host, err))
 		}
 
-		go func() {
-			// sleep for interval
-			time.Sleep(h.ProviderInterval)
-			intervalCh <- 0
-		}()
+		log.Println(fmt.Sprintf("published %d bytes on %s", len(mgs), host))
 
 		select {
-		case <-intervalCh:
-			continue
+		case <-ctx.Done():
+			cancel()
 		case <-signalCh:
 			os.Exit(0)
 		}
