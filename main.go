@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"flag"
+	"log"
 
 	"github.com/amirhnajafiz/j-mirror/internal/config"
 	"github.com/amirhnajafiz/j-mirror/internal/handlers"
@@ -32,11 +33,21 @@ func main() {
 	// start bootstrap
 	switch *ServiceTypeFlag {
 	case SVCConsumer:
-		h.Consumer(*NATSHost)
+		if err := h.Consumer(*NATSHost); err != nil {
+			panic(err)
+		}
 	case SVCProvider:
-		h.Provider(*NATSHost)
+		if err := h.Provider(*NATSHost); err != nil {
+			panic(err)
+		}
 	case SVCBoot:
-		h.Bootstrap(cfg.Nats...)
+		if err := h.Bootstrap(cfg.Clusters); len(err) > 0 {
+			for _, msg := range err {
+				log.Println(msg)
+			}
+
+			panic(errors.New("failed to bootstrap all clusters"))
+		}
 	default:
 		panic(errors.New("input service type is not in (provider, consumer, or boot)"))
 	}
