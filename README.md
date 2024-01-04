@@ -26,6 +26,8 @@ input:
     deliver: all
 ```
 
+### Output
+
 Output is our back-up nats js service, which will be mirrored
 by the main service.
 
@@ -37,74 +39,11 @@ output:
     subject: "snapp*"
 ```
 
-## Set configs
+## Setup
 
-Set our services configs:
-
-```shell
-cp ./configs/example-config.yaml ./config.yaml
-```
-
-You can set the project configs in this file:
-
-```yaml
-nats:
-  nats1_url: "0.0.0.0:4222" # main service
-  nats2_url: "0.0.0.0:4223" # second service
-stream:
-  stream_name: "snapp" # stream names that are same in both
-  subject: "snapp*"    # subjects are also the same
-  subject_name: "snapp"
-number_of_tests: 20 # number of tests
-```
-
-## Set up servers
-
-Use the following command to start our nats js clusters:
+Use the following command to start Benthos, two NATS clusters, bootstrap service, two consumers, and one publisher
+to see the mirroring between clusters:
 
 ```shell
-make up
-```
-
-Now you have two Jet-stream clusters on:
-- 0.0.0.0:4222 (Main)
-- 0.0.0.0:4223 (Secondary)
-
-Bring up the benthos on docker:
-
-```shell
-make benthos-run-docker
-```
-
-If you have benthos installed on your system, you can use
-the following command instead, to run benthos on your local system:
-
-```shell
-make benthos-run
-```
-
-Now you have the benthos service on:
-- 0.0.0.0:4195
-
-Now set the streams configs for the service with following command:
-
-```shell
-make build
-make run
-```
-
-## Testing
-
-Test the mirroring by the following command:
-
-```shell
-make tests
-```
-
-You should be able to see same publications on both clusters.
-
-If you want to shut down the clusters:
-
-```shell
-make down
+docker-compose up
 ```
