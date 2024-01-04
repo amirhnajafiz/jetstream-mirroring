@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine as build
+FROM golang:1.20-alpine as build
 
 # Add Maintainer Info
 LABEL maintainer="amirhnajafiz"
@@ -18,8 +18,5 @@ FROM scratch
 # Copy the main file from last image
 COPY --from=build ./app/main ./bin/main
 
-# port
-EXPOSE 8080
-
 # Executing the main file
-ENTRYPOINT ["/bin/main"]
+CMD ["/bin/main"]
