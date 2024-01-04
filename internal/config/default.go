@@ -1,17 +1,15 @@
 package config
 
+import "github.com/amirhnajafiz/j-mirror/internal/model"
+
 // Default configs
 func Default() Config {
 	return Config{
-		Nats: Nats{
-			Nat1: "",
-			Nat2: "",
-		},
-		Stream: Stream{
-			StreamName:  "snapp",
+		Clusters: []string{},
+		Stream: model.Stream{
+			Name:        "snapp",
 			Subject:     "snapp*",
 			SubjectName: "snapp@cab",
 		},
-		Tests: 10,
 	}
 }

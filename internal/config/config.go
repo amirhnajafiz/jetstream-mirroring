@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/amirhnajafiz/j-mirror/internal/model"
+
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
@@ -12,22 +14,8 @@ import (
 
 // Config main configs of the application
 type Config struct {
-	Nats   Nats   `koanf:"nats"`
-	Stream Stream `koanf:"stream"`
-	Tests  int    `koanf:"number_of_tests"`
-}
-
-// Nats configs for our nats servers
-type Nats struct {
-	Nat1 string `koanf:"nat1_url"`
-	Nat2 string `koanf:"nat2_url"`
-}
-
-// Stream configs for nats streams
-type Stream struct {
-	StreamName  string `koanf:"stream_name"`
-	Subject     string `koanf:"subject"`
-	SubjectName string `koanf:"subject_name"`
+	Clusters []string     `koanf:"clusters"`
+	Stream   model.Stream `koanf:"stream"`
 }
 
 // Load loads all of our configs
