@@ -31,7 +31,7 @@ type Stream struct {
 }
 
 // Load loads all of our configs
-func Load() Config {
+func Load(path string) Config {
 	var instance Config
 
 	k := koanf.New(".")
@@ -42,7 +42,7 @@ func Load() Config {
 	}
 
 	// load configs file
-	if err := k.Load(file.Provider("config.yaml"), yaml.Parser()); err != nil {
+	if err := k.Load(file.Provider(path), yaml.Parser()); err != nil {
 		_ = fmt.Errorf("error loading config.yaml file: %v\n", err)
 	}
 
