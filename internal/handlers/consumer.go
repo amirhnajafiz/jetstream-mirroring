@@ -40,6 +40,7 @@ func (h Handler) Consumer(host string) error {
 
 	// wait for cancel signal
 	<-signalCh
+	os.Exit(0)
 
 	return nil
 }

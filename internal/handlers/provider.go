@@ -3,12 +3,19 @@ package handlers
 import (
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/nats-io/nats.go"
 )
 
 func (h Handler) Provider(host string) error {
+	intervalCh := make(chan int)
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
+
 	// connect to NATS server for publishing
 	nc, err := nats.Connect(host)
 	if err != nil {
@@ -28,7 +35,17 @@ func (h Handler) Provider(host string) error {
 			log.Println(fmt.Errorf("failed to publish on %s: %w", host, err))
 		}
 
-		// sleep for interval
-		time.Sleep(h.ProviderInterval)
+		go func() {
+			// sleep for interval
+			time.Sleep(h.ProviderInterval)
+			intervalCh <- 0
+		}()
+
+		select {
+		case <-intervalCh:
+			continue
+		case <-signalCh:
+			os.Exit(0)
+		}
 	}
 }
