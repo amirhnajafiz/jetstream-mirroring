@@ -1,16 +1,66 @@
 version: "3.9"
 services:
+  # benthos setup
+  benthos:
+    image: jeffail/benthos
+    volumes:
+      - "./configs/benthos.config.yaml:/benthos.yaml"
+    ports:
+      - "4195:4195"
+
+  # two nats clusters
   nats-1:
-    container_name: n1
+    container_name: nats-cluster-n1
     image: nats:latest
     entrypoint: /nats-server
     ports:
       - "4222:4222"
     command: --name n1 --cluster_name NATS1 --js --sd /data -p 4222
   nats-2:
-    container_name: n2
+    container_name: nats-cluster-n2
     image: nats:latest
     entrypoint: /nats-server
     ports:
       - "4223:4222"
     command: --name n2 --cluster_name NATS2 --js --sd /data -p 4222
+
+  # bootstrap container
+  bootstrap:
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    volumes:
+      - "./configs/example.config.yaml:bin/config.yaml"
+    command: --service boot --config config.yaml
+
+  # consumers on nats-1 and nats-2
+  consumer-n1:
+    depends_on:
+      - bootstrap
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    volumes:
+      - "./configs/example.config.yaml:bin/config.yaml"
+    command: --service consumer --config config.yaml --nats nats://nats-1:4222
+  consumer-n2:
+    depends_on:
+      - bootstrap
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    volumes:
+      - "./configs/example.config.yaml:bin/config.yaml"
+    command: --service consumer --config config.yaml --nats nats://nats-2:4222
+
+  # a publisher on nats1
+  provider-n1:
+    depends_on:
+      - consumer-n1
+      - consumer-n2
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    volumes:
+      - "./configs/example.config.yaml:bin/config.yaml"
+    command: --service provider --config config.yaml --nats nats://nats-1:4222

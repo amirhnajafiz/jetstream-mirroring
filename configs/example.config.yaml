@@ -1,8 +1,8 @@
 # list of the NATS cluster that we want
 # for mirroring
 clusters:
-  - "0.0.0.0:4222"
-  - "0.0.0.0:4223"
+  - "nats://127.0.0.1:4222"
+  - "nats://127.0.0.1:4223"
 
 # the stream that is going to be built
 # in each NATS cluster

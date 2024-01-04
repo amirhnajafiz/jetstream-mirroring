@@ -11,7 +11,7 @@ http:
 input:
   label: "nats1"
   nats_jetstream:
-    urls: [ "nats://0.0.0.0:4222" ]
+    urls: [ "nats://127.0.0.1:4222" ]
     queue: ""
     subject: "snapp*"
     durable: ""
@@ -26,7 +26,7 @@ pipeline:
 output:
   label: "nats2"
   nats_jetstream:
-    urls: [ "nats://0.0.0.0:4223" ]
+    urls: [ "nats://127.0.0.1:4223" ]
     subject: "*"
 logger:
   level: INFO
