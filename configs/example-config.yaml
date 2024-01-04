@@ -1,7 +1,15 @@
-nats:
-  nats1_url: "0.0.0.0:4222"
-  nats2_url: "0.0.0.0:4223"
+# list of the NATS cluster that we want
+# for mirroring
+clusters:
+  - "0.0.0.0:4222"
+  - "0.0.0.0:4223"
+
+# the stream that is going to be built
+# in each NATS cluster
 stream:
-  stream_name: "snapp"
+  name: "snapp"
   subject: "snapp*"
   subject_name: "snapp"
+
+# publishers interval
+interval: 5 # in seconds
