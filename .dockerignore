@@ -1,0 +1,9 @@
+build/
+configs/
+
+docker-compose.yaml
+
+README.md
+
+.dockerignore
+.gitignore
