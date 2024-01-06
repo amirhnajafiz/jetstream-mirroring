@@ -1,4 +1,4 @@
-module github.com/amirhnajafiz/j-mirror
+module github.com/amirhnajafiz/jetstream-mirroring
 
 go 1.20
 

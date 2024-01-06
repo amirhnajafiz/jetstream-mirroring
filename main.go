@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/amirhnajafiz/j-mirror/internal/config"
-	"github.com/amirhnajafiz/j-mirror/internal/handlers"
+	"github.com/amirhnajafiz/jetstream-mirroring/internal/config"
+	"github.com/amirhnajafiz/jetstream-mirroring/internal/handlers"
 )
 
 const (

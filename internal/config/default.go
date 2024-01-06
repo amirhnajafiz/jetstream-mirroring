@@ -1,6 +1,6 @@
 package config
 
-import "github.com/amirhnajafiz/j-mirror/internal/model"
+import "github.com/amirhnajafiz/jetstream-mirroring/internal/model"
 
 // Default configs
 func Default() Config {

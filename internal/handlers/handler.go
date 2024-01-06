@@ -3,7 +3,7 @@ package handlers
 import (
 	"time"
 
-	"github.com/amirhnajafiz/j-mirror/internal/model"
+	"github.com/amirhnajafiz/jetstream-mirroring/internal/model"
 )
 
 // Handler manages testing components

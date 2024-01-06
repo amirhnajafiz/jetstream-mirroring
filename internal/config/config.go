@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/amirhnajafiz/j-mirror/internal/model"
+	"github.com/amirhnajafiz/jetstream-mirroring/internal/model"
 
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
